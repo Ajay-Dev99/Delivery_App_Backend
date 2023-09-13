@@ -1,0 +1,37 @@
+const express = require("express")
+const { login } = require("../../Controllers/adminController")
+const { adminLoginValidation, addDriverValidaton, editDriverValidaton, addVentorValidation, addCategoryValidtion, addProductValidation } = require("../../Middlewares/validations/validators")
+const adminAuth = require("../../Middlewares/authMiddlewares/adminAuth")
+const { addDriver, listDrivers, driverData, editDriver, deleteDriver } = require("../../Controllers/driverController")
+const { addVentor, listVentors, ventorDetails, editVentorData, deleteVenotr } = require("../../Controllers/ventorController")
+const { addCategory, listCategories, editCategory, deletCategory, categoryDetails } = require("../../Controllers/categoryController")
+const { addProduct, listProducts, productDetails, editProduct, deleteProduct } = require("../../Controllers/productController")
+const { uploadImage } = require("../../Middlewares/multer")
+const router = express.Router()
+
+router.post("/login", adminLoginValidation, login)
+router.post("/addDriver", adminAuth, addDriverValidaton, addDriver)
+router.get("/listDrivers", adminAuth, listDrivers)
+router.get("/driverData/:id", adminAuth, driverData)
+router.put("/editDriver/:id", adminAuth, editDriverValidaton, editDriver)
+router.delete("/deleteDriver/:id", adminAuth, deleteDriver)
+router.post("/addVentor", adminAuth, addVentorValidation, addVentor)
+router.get("/listVentors", adminAuth, listVentors)
+router.get("/ventorDetails/:id", adminAuth, ventorDetails)
+router.put("/editVentorData/:id", adminAuth, addVentorValidation, editVentorData)
+router.delete("/deleteVentor/:id", adminAuth, deleteVenotr)
+router.post("/addCategory", adminAuth, addCategoryValidtion, addCategory)
+router.get("/listCategories", adminAuth, listCategories)
+router.get("/categoryDetails/:id", adminAuth, categoryDetails)
+router.put("/editCategory/:id", adminAuth, addCategoryValidtion, editCategory)
+router.delete("/deleteCategory/:id", adminAuth, deletCategory)
+router.post("/addProduct", adminAuth, uploadImage("./public/images/productImages"), addProductValidation, addProduct)
+router.get("/listProducts", adminAuth, listProducts)
+router.get("/productDetails/:id", adminAuth, productDetails)
+router.put("/editProduct/:id", adminAuth, uploadImage("./public/images/productImages"), addProductValidation, editProduct)
+router.delete("/deleteProduct/:id", adminAuth, deleteProduct)
+
+
+
+
+module.exports = router
